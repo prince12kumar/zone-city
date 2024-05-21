@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers;
+ use App\Models\cityes;
+ use App\Models\zones;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\Print_;
+
+ class DemoController extends Controller
+{
+     public function index(Request $request)
+     {
+        $data['city']=DB::table('cities')->get();
+        return view('demo_view',$data);
+     }
+    //  public function getcityes(Request $request)
+    //  {
+    //    $city_id = $request->post('city_id');
+    //    $cityes=DB::table('state')->where('zone',$city_id)->get();
+    //    print_r($cityes);
+
+    //  }
+     public function getzone(Request $request)
+     {
+       $city_id = $request->post('city_id');
+       $zone=DB::table('zones')->where('city_id', $city_id)->get();
+
+       $html ='<option value="">Select Zone</option>';
+       foreach($zone as $list){
+        $html='<option value="'.$list->id.'">'.$list->name.'</option>';
+       }
+         echo $html;
+     }
+}
+
+
+
+
+    //  public function showDemo(){
+    //     $demo = DB::table('zones')
+    //              ->join('cityes', 'zones.city_id', '=', 'cityes.id')
+    //              ->get();
+
+    //              return $demo;
+
+    //              //SELECT * FROM zones AS C INNER JOIN cityes AS P ON C.city_id = P.id;
+
+    //  }
+    //  public function view_detail(Request $id)
+    //  {
+    //      $sql = 'SELECT * FROM cityes where id = ?';
+    //      // $courseDetails = courseDetail::all();
+    //      // dd($courseDetails);
+    //      $cityes = DB::select($sql,  [$id['id']]);
+    //      $data = compact('cityes');
+    //      // dd($data);
+    //      return view('demo_view')->with($data);
+    //  }
+
+
+
+    // public function demo(Request $request){
+    //     $query = cityes::query();
+    //     $zones = zones::all();
+    //    if($request->ajax()){
+    //      $cityes = $query->Where(['id'=>$request->cityes])->get();
+    //      return response()->json(['cityes'=>$cityes]);
+    //    }
+    //    $cityes = $query->get();
+    //     return view('demo_view',compact('zones','cityes'));
+    //}
+
